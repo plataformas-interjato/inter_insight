@@ -1,7 +1,6 @@
 'use client';
 
 import type { SearchTerm, ColorVariant } from '@/interfaces/search-term.interface';
-import { getColorClass } from '@/stores/search_terms';
 
 interface SearchTermCardProps {
   term: SearchTerm;
@@ -9,15 +8,15 @@ interface SearchTermCardProps {
   onToggle: (termId: string) => void;
 }
 
-const getSelectedBorderClass = (color: ColorVariant): string => {
-  const borderMap: Record<ColorVariant, string> = {
-    blue: 'border-blue-500 ring-2 ring-blue-500/30',
-    red: 'border-red-500 ring-2 ring-red-500/30',
-    yellow: 'border-yellow-500 ring-2 ring-yellow-500/30',
-    green: 'border-green-500 ring-2 ring-green-500/30',
-    purple: 'border-purple-500 ring-2 ring-purple-500/30',
+const getColorStyles = (color: ColorVariant) => {
+  const colorMap: Record<ColorVariant, { bg: string; border: string; ring: string }> = {
+    blue: { bg: 'bg-blue-500', border: 'border-blue-500', ring: 'ring-blue-200' },
+    red: { bg: 'bg-red-500', border: 'border-red-500', ring: 'ring-red-200' },
+    yellow: { bg: 'bg-yellow-500', border: 'border-yellow-500', ring: 'ring-yellow-200' },
+    green: { bg: 'bg-green-500', border: 'border-green-500', ring: 'ring-green-200' },
+    purple: { bg: 'bg-purple-500', border: 'border-purple-500', ring: 'ring-purple-200' },
   };
-  return borderMap[color];
+  return colorMap[color];
 };
 
 const SearchTermCard = ({ term, isSelected, onToggle }: SearchTermCardProps) => {
@@ -32,6 +31,8 @@ const SearchTermCard = ({ term, isSelected, onToggle }: SearchTermCardProps) => 
     }
   };
 
+  const colorStyles = getColorStyles(term.color);
+
   return (
     <div
       role="button"
@@ -41,16 +42,16 @@ const SearchTermCard = ({ term, isSelected, onToggle }: SearchTermCardProps) => 
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       className={`
-        group cursor-pointer rounded-xl border-2 bg-slate-800 px-8 py-6 min-w-[280px]
-        transition-all duration-200 ease-in-out hover:shadow-lg hover:bg-slate-700
-        ${isSelected ? getSelectedBorderClass(term.color) : 'border-slate-700 hover:border-slate-500'}
+        group cursor-pointer rounded-lg border bg-white px-4 py-3
+        transition-all duration-200 ease-in-out hover:shadow-md
+        ${isSelected ? `${colorStyles.border} ring-2 ${colorStyles.ring}` : 'border-slate-200 hover:border-slate-300'}
       `}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <span
-          className={`h-4 w-4 rounded-full ${getColorClass(term.color)} transition-transform duration-200 group-hover:scale-110`}
+          className={`h-3 w-3 rounded-full ${colorStyles.bg} transition-transform duration-200 group-hover:scale-110`}
         />
-        <span className="text-lg font-semibold text-white">{term.label}</span>
+        <span className="text-sm font-medium text-slate-800">{term.label}</span>
       </div>
     </div>
   );
