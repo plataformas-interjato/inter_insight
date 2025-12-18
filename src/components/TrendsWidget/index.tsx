@@ -57,18 +57,13 @@ const TrendsWidget = ({ config }: TrendsWidgetProps) => {
   }, [config, uniqueId]);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border-2 border-slate-200 bg-white p-6 shadow-sm h-full flex flex-col">
       <div className="mb-4">
-        {config.subtitle && (
-          <span className="mb-1 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-            {config.subtitle}
-          </span>
-        )}
         <h3 className="text-lg font-semibold text-slate-800">{config.title}</h3>
       </div>
       {/* Container com posição relativa para o overlay */}
-      <div className="relative">
-        <div ref={widgetRef} className="min-h-[400px] w-full" />
+      <div className="relative flex-1">
+        <div ref={widgetRef} className="min-h-[400px] w-full h-full" />
         
         {/* Overlay para cobrir a marca Google Trends */}
         <div className="absolute top-[1px] right-[1px] bg-white px-3 py-1 z-10 flex items-center gap-1">

@@ -10,11 +10,11 @@ interface SearchTermCardProps {
 
 const getColorStyles = (color: ColorVariant) => {
   const colorMap: Record<ColorVariant, { bg: string; border: string; ring: string }> = {
-    blue: { bg: 'bg-blue-500', border: 'border-blue-500', ring: 'ring-blue-200' },
-    red: { bg: 'bg-red-500', border: 'border-red-500', ring: 'ring-red-200' },
-    yellow: { bg: 'bg-yellow-500', border: 'border-yellow-500', ring: 'ring-yellow-200' },
-    green: { bg: 'bg-green-500', border: 'border-green-500', ring: 'ring-green-200' },
-    purple: { bg: 'bg-purple-500', border: 'border-purple-500', ring: 'ring-purple-200' },
+    blue: { bg: 'bg-blue-500', border: 'border-2 border-blue-500', ring: 'ring-blue-200' },
+    red: { bg: 'bg-red-500', border: 'border-2 border-red-500', ring: 'ring-red-200' },
+    yellow: { bg: 'bg-yellow-500', border: 'border-2 border-yellow-500', ring: 'ring-yellow-200' },
+    green: { bg: 'bg-green-500', border: 'border-2 border-green-500', ring: 'ring-green-200' },
+    purple: { bg: 'bg-purple-500', border: 'border-2 border-purple-500', ring: 'ring-purple-200' },
   };
   return colorMap[color];
 };
@@ -42,9 +42,9 @@ const SearchTermCard = ({ term, isSelected, onToggle }: SearchTermCardProps) => 
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       className={`
-        group cursor-pointer rounded-lg border bg-white px-4 py-3
+        group cursor-pointer rounded-lg bg-white px-4 py-3
         transition-all duration-200 ease-in-out hover:shadow-md
-        ${isSelected ? `${colorStyles.border} ring-2 ${colorStyles.ring}` : 'border-slate-200 hover:border-slate-300'}
+        ${isSelected ? `${colorStyles.border} ring-2 ${colorStyles.ring}` : 'border-2 border-slate-400 hover:border-slate-500'}
       `}
     >
       <div className="flex items-center gap-3">

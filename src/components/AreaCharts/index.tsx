@@ -51,11 +51,11 @@ const AreaCharts = ({ selectedTerms }: AreaChartsProps) => {
             </div>
 
             {/* Widgets da área */}
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:auto-rows-fr">
               {areaConfig.widgets.map((widget, index) => (
                 <div
                   key={`${term.id}-${widget.type}-${index}`}
-                  className={widget.type === 'TIMESERIES' ? 'lg:col-span-2' : ''}
+                  className={`h-full ${widget.type === 'TIMESERIES' ? 'lg:col-span-2' : ''}`}
                 >
                   <TrendsWidget config={widget} />
                 </div>
