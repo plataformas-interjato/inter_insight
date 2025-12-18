@@ -14,3 +14,17 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* Oculta logo do Google Trends */
+img[alt="Google Trends"],
+img[src*="lockup_trends"],
+img[src*="gstatic.com/trends"],
+a[href*="trends.google"] img,
+.embed-logo,
+[class*="embed-logo"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}

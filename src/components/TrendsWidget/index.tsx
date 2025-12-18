@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useId } from 'react';
+import { useEffect, useRef, useId, useState } from 'react';
 import type { WidgetConfig } from '@/interfaces/chart-config.interface';
 
 interface TrendsWidgetProps {
@@ -12,13 +12,37 @@ const SCRIPT_ID = 'google-trends-script';
 const TrendsWidget = ({ config }: TrendsWidgetProps) => {
   const widgetRef = useRef<HTMLDivElement>(null);
   const uniqueId = useId();
+  const [iframeHeight, setIframeHeight] = useState(0);
 
   useEffect(() => {
     if (!widgetRef.current) return;
 
+    // Observa mudanças de tamanho para encontrar o iframe
+    const resizeObserver = new ResizeObserver(() => {
+      if (widgetRef.current) {
+        const iframe = widgetRef.current.querySelector('iframe');
+        if (iframe) {
+          setIframeHeight(iframe.offsetHeight);
+        }
+      }
+    });
+
+    // Observa mudanças no DOM para detectar quando o iframe é adicionado
+    const mutationObserver = new MutationObserver(() => {
+      const iframe = widgetRef.current?.querySelector('iframe');
+      if (iframe) {
+        setIframeHeight(iframe.offsetHeight);
+        resizeObserver.observe(iframe);
+      }
+    });
+
+    mutationObserver.observe(widgetRef.current, {
+      childList: true,
+      subtree: true,
+    });
+
     const renderWidget = () => {
       if ((window as any).trends && widgetRef.current) {
-        // Limpa o container
         while (widgetRef.current.firstChild) {
           widgetRef.current.removeChild(widgetRef.current.firstChild);
         }
@@ -54,6 +78,11 @@ const TrendsWidget = ({ config }: TrendsWidgetProps) => {
     } else {
       existingScript.addEventListener('load', renderWidget);
     }
+
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
   }, [config, uniqueId]);
 
   return (
@@ -61,21 +90,30 @@ const TrendsWidget = ({ config }: TrendsWidgetProps) => {
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-slate-800">{config.title}</h3>
       </div>
-      {/* Container com posição relativa para o overlay */}
-      <div className="relative flex-1">
+      <div className="relative flex-1 overflow-hidden">
         <div ref={widgetRef} className="min-h-[400px] w-full h-full" />
         
-        {/* Overlay para cobrir a marca Google Trends */}
-        <div className="absolute top-[1px] right-[1px] bg-white px-3 py-1 z-10 flex items-center gap-1">
+        {/* Overlay superior direito */}
+        <div className="absolute top-0 right-0 bg-white px-4 py-2 z-10 flex items-center gap-1 min-w-[140px] justify-end">
           <span className="text-base font-bold">
             <span style={{ color: '#f24405' }}>Inter</span>
             <span className="text-slate-700">insights</span>
           </span>
         </div>
+
+        {/* Overlay inferior dinâmico - posicionado com base na altura do iframe */}
+        {iframeHeight > 0 && (
+          <div 
+            className="absolute left-0 right-0 bg-white h-10 z-10 flex items-center justify-between px-4"
+            style={{ top: iframeHeight - 40 }}
+          >
+            <span className="text-xs text-slate-400">Dados: InterInsights</span>
+            <span className="text-xs text-slate-400">Fonte: InterInsights</span>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default TrendsWidget;
-
