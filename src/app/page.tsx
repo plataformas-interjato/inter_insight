@@ -2,7 +2,7 @@
 
 import Header from '@/components/Header';
 import SearchTermCard from '@/components/SearchTermCard';
-import ChartContainer from '@/components/ChartContainer';
+import AreaCharts from '@/components/AreaCharts';
 import { useSearchTermsStore } from '@/stores/search_terms';
 
 const HomePage = () => {
@@ -31,7 +31,7 @@ const HomePage = () => {
         </div>
 
         {/* Container dos gráficos */}
-        <ChartContainer selectedTerms={selectedTerms} />
+        <AreaCharts selectedTerms={selectedTerms} />
       </main>
     </div>
   );
