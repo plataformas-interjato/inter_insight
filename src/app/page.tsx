@@ -31,7 +31,7 @@ const HomePage = () => {
         </div>
 
         {/* Container dos gráficos */}
-        <AreaCharts selectedTerms={selectedTerms} />
+        <AreaCharts selectedTerms={selectedTerms} allTerms={terms} />
       </main>
     </div>
   );
