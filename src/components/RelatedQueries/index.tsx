@@ -20,12 +20,12 @@ const LoadingSpinner = () => (
   </div>
 );
 
-const ErrorMessage = ({ message }: { message: string }) => (
+const ErrorMessage = () => (
   <div className="flex flex-col items-center justify-center min-h-[200px] gap-4">
-    <div className="text-red-500 text-4xl">⚠️</div>
+    <div className="text-amber-500 text-4xl">⚠️</div>
     <div className="text-center">
-      <p className="text-slate-600 font-medium">Erro ao carregar dados</p>
-      <p className="text-slate-400 text-sm mt-1">{message}</p>
+      <p className="text-slate-600 font-medium">Dados temporariamente indisponíveis</p>
+      <p className="text-slate-400 text-sm mt-1">Tente novamente mais tarde.</p>
     </div>
   </div>
 );
@@ -77,7 +77,7 @@ const RelatedQueries = ({
 
       {loading && <LoadingSpinner />}
       
-      {error && <ErrorMessage message={error} />}
+      {error && <ErrorMessage />}
       
       {!loading && !error && queries.length > 0 && (
         <div className="space-y-2">

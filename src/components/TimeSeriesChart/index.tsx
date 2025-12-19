@@ -31,12 +31,12 @@ const LoadingSpinner = () => (
   </div>
 );
 
-const ErrorMessage = ({ message }: { message: string }) => (
+const ErrorMessage = () => (
   <div className="flex flex-col items-center justify-center min-h-[300px] gap-4">
-    <div className="text-red-500 text-4xl">⚠️</div>
+    <div className="text-amber-500 text-4xl">⚠️</div>
     <div className="text-center">
-      <p className="text-slate-600 font-medium">Erro ao carregar dados</p>
-      <p className="text-slate-400 text-sm mt-1">{message}</p>
+      <p className="text-slate-600 font-medium">Dados temporariamente indisponíveis</p>
+      <p className="text-slate-400 text-sm mt-1">Tente novamente mais tarde.</p>
     </div>
   </div>
 );
@@ -89,7 +89,7 @@ const TimeSeriesChart = ({ keywords, geo = 'BR-RN', title = 'Interesse ao longo 
 
       {loading && <LoadingSpinner />}
       
-      {error && <ErrorMessage message={error} />}
+      {error && <ErrorMessage />}
       
       {!loading && !error && chartData.length > 0 && (
         <ResponsiveContainer width="100%" height={350}>

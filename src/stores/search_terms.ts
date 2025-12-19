@@ -45,15 +45,18 @@ export const useSearchTermsStore = create<SearchTermsState>((set) => ({
     set((state) => {
       const isSelected = state.selectedTermIds.includes(termId);
       if (isSelected) {
-        return { selectedTermIds: state.selectedTermIds.filter((id) => id !== termId) };
+        // Se já está selecionado, desseleciona
+        return { selectedTermIds: [] };
       }
-      return { selectedTermIds: [...state.selectedTermIds, termId] };
+      // Se não está selecionado, seleciona apenas este (remove os anteriores)
+      return { selectedTermIds: [termId] };
     }),
 
   selectTerm: (termId: string) =>
     set((state) => {
       if (state.selectedTermIds.includes(termId)) return state;
-      return { selectedTermIds: [...state.selectedTermIds, termId] };
+      // Seleciona apenas este termo (remove os anteriores)
+      return { selectedTermIds: [termId] };
     }),
 
   deselectTerm: (termId: string) =>
